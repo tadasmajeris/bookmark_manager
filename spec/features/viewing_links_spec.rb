@@ -4,6 +4,7 @@ feature 'Viewing links' do
 
   scenario 'I can see existing links on the links page' do
     # We can use `.create`, which we used in irb to make a Student, within our test!
+    Link.create(url: 'http://www.makersacademy.co.uk/', title: 'Makers Academy')
     visit '/links'
 
     # this is a *temporary* sanity check - to make sure we
