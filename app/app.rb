@@ -18,7 +18,7 @@ class BookmarkManager < Sinatra::Base
     link = Link.new(url: params[:url], title: params[:title])
     tag = Tag.first_or_create(name: params[:tags])
     link.tags << tag
-    link.save  
+    link.save
     redirect '/links'
   end
 
@@ -28,6 +28,12 @@ class BookmarkManager < Sinatra::Base
 
   get '/links/add_tag' do
     erb(:'links/add_tag')
+  end
+
+  get '/tags/:name' do
+    tag = Tag.first(name: params[:name])
+    @links = tag ? tag.links : []
+    erb(:'links/index')
   end
 
   # start the server if ruby file executed directly
