@@ -1,9 +1,16 @@
 # frozen_string_literal: true
 source "https://rubygems.org"
 
-# gem "rails"
+ruby '2.3.1'
+
+
 gem 'sinatra'
-gem 'capybara'
-gem 'rspec'
+gem 'rspec-sinatra'
 gem 'data_mapper'
-gem 'postgres-adapter'
+gem 'dm-postgres-adapter'
+
+
+group :test do
+  gem 'capybara'
+  gem 'rspec'
+end
