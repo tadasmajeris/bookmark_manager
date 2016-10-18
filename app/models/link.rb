@@ -11,6 +11,5 @@ class Link
 
 end
 
-DataMapper.setup(:default, "postgres://localhost/bookmark_manager_#{ENV['RACK_ENV']}")
-DataMapper.finalize
+DataMapper.setup(:default, ENV['DATABASE_URL'] || "postgres://localhost/bookmark_manager_#{ENV['RACK_ENV']}")
 DataMapper.auto_upgrade!
