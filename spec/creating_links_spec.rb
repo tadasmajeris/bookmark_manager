@@ -3,12 +3,8 @@ require "spec_helper"
 feature 'Creating Links' do
 
   scenario 'creating a new link' do
-    visit '/links/new'
-
-    fill_in :title, with: 'Makers Academy'
-    fill_in :url,   with: 'http://www.makersacademy.com'
+    fill_in_makers_link
     click_button 'Add link'
-
     expect(current_path).to eq '/links'
 
     within 'ul#links' do
