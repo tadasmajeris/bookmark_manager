@@ -2,6 +2,8 @@ require "bcrypt"
 
 class User
 
+  PASSWORD_ERROR = "Passwords do not match"
+
   include DataMapper::Resource
 
   attr_reader :password

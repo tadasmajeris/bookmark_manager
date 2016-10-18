@@ -1,11 +1,14 @@
 ENV["RACK_ENV"] ||= "development"
 
 require 'sinatra/base'
+require 'sinatra/flash'
 require_relative 'data_mapper_setup'
 
 class BookmarkManager < Sinatra::Base
   enable :sessions
   set :sessions_secret, 'super secret'
+
+  register Sinatra::Flash
 
   helpers do
     def current_user
@@ -23,9 +26,9 @@ class BookmarkManager < Sinatra::Base
   end
 
   post '/links' do
-    link = Link.new(url: params[:url], title: params[:title])
-    params[:tags].split.each do |tag_name|
-      link.tags << Tag.create(name: tag_name)
+    link = Link.create(url: params[:url], title: params[:title])
+    params[:tags].split(' ').each do |tag_name|
+      link.tags << Tag.first_or_create(name: tag_name)
     end
     link.save
     redirect to('/links')
@@ -41,20 +44,27 @@ class BookmarkManager < Sinatra::Base
 
   get '/tags/:name' do
     tag = Tag.first(name: params[:name])
+    puts tag.links.inspect
     @links = tag ? tag.links : []
     erb(:'links/index')
   end
 
   get '/users/new' do
+    @user = User.new
     erb(:'users/new')
   end
 
   post '/users' do
-    user = User.create(email: params[:email],
+    @user = User.new(email: params[:email],
                        password: params[:password],
                        password_confirmation: params[:password_confirmation])
-    session[:user_id] = user.id
-    redirect '/links'
+    if @user.save
+      session[:user_id] = @user.id
+      redirect '/links'
+    else
+      flash.now[:notice] = User::PASSWORD_ERROR
+      erb(:'users/new')
+    end
   end
 
   # start the server if ruby file executed directly

@@ -3,9 +3,12 @@
   <head>
     <title>Worst Bookmark Manager!</title>
   </head>
-  <body>
+  <body style="text-align: center;">
     <% if current_user %>
       Welcome, <%= current_user.email %>
+    <% end %>
+    <% if flash[:notice] %>
+      <div id='notice'><%= flash[:notice]%></div>
     <% end %>
     <%= yield %>
   </body>
