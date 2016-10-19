@@ -10,5 +10,5 @@ feature 'Adding Tags' do
     click_button 'Create Link'
     link = Link.first
     expect(link.tags.map(&:name)).to include('education')
+    end
   end
-end
