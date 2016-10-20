@@ -14,9 +14,23 @@
       </ul>
     <% end %>
 
+    <% if flash[:goodbye] %>
+      <%= flash[:goodbye] %>
+    <% end %>
+
     <% if current_user %>
       Welcome, <%= current_user.email %>
+      <form action="/sessions" method="post">
+        <input type="hidden" name="_method" value="delete">
+        <input type="submit" value="Sign Out">
+      </form>
+    <% else %>
+      <% if !request.path_info.include?('/sessions') || request.path_info == '/sessions/delete' %>
+        <form action="/sessions/new">
+          <input type="submit" value="Sign In">
+        </form>
+      <% end %>
     <% end %>
-    <%= yield %>  <!-- this then yields to the view which has been called by your controller -->
-  </body>
+
+    <%= yield %>
 </html>
