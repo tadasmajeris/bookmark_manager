@@ -29,3 +29,15 @@ feature 'User sign up' do
   end
 
 end
+
+feature 'User sign in' do
+    scenario 'I can sign in as an existing user' do
+      User.create(email: 'alice@example.com', password: 'oranges!', password_confirmation: 'oranges!')
+      visit '/sessions/new'
+      fill_in :email, with: 'alice@example.com'
+      fill_in :password, with: 'oranges!'
+      click_button 'Sign in'
+      expect(current_path).to eq '/links'
+      expect(page).to have_content "Welcome, alice@example.com"
+    end
+end
