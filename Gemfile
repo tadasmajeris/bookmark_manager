@@ -10,6 +10,7 @@ gem 'bcrypt'
 gem 'sinatra-flash'
 gem 'sinatra-partial'
 gem 'rake'
+gem 'timecop'
 
 group :test do
   gem 'database_cleaner'
