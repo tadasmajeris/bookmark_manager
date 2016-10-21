@@ -11,6 +11,7 @@ gem 'sinatra-flash'
 gem 'sinatra-partial'
 gem 'rake'
 gem 'timecop'
+gem 'mailgun-ruby'
 
 group :test do
   gem 'database_cleaner'

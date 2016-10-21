@@ -5,6 +5,7 @@ feature 'Password recovery' do
   before do
     sign_up(email: email)
     Capybara.reset!
+    allow(SendRecoveryLink).to receive(:call)
   end
 
   scenario 'User can ask for password recovery' do
@@ -59,5 +60,10 @@ feature 'Password recovery' do
     recover_and_enter_new_password('newpassword')
     visit("/users/reset_password?token=#{User.first.password_token}")
     expect(page).to have_content "Your token is invalid"
+  end
+
+  scenario 'it calls the SendRecoveryLink service to send link' do
+    expect(SendRecoveryLink).to receive(:call).with(User.first)
+    recover_password
   end
 end

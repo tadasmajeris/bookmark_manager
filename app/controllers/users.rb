@@ -27,13 +27,13 @@ class BookmarkManager < Sinatra::Base
     user = User.first(email: params[:email])
     if user
       user.generate_token
+      SendRecoveryLink.call(user)
     end
     flash.keep[:notice] = "Email was sent to #{params[:email]}"
     redirect '/links'
   end
 
   get '/users/reset_password' do
-    puts params[:token]
     user = User.find_by_valid_token(params[:token])
     if user
       session[:token] = params[:token]
